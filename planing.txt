@@ -1,0 +1,9 @@
+component: searchBar -> para buscar y seleccionar las cuidades
+component: citiesList -> lista de ciudades ya seleccionadas{
+    onSwipe: opcion para eliminar la cuidad de la lista
+    onClick: abre otra screen donde se ven los detalles del clima {
+        backgroundChange: cambia el fondo de pantalla en base a la temperatura y el clima
+        todaysWeather: muestra la temp, clima y prob de precipitacion por hora
+        fourDayForecast: muestra el clima y temp para los proximos 4 dias
+    }
+}
