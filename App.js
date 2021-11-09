@@ -1,9 +1,9 @@
 import React from 'react';
-import Weather from './app/screens/Weather'
+import Navigation from './app/navigations/Navigation'
 
 
 export default function App(){
   return(
-    <Weather />
+    <Navigation />
   );
 }
