@@ -1,6 +1,16 @@
 import React from 'react';
 import { View, Text} from 'react-native';
 
+export default function GetWeather(){
+    return(
+        <View>
+            <Text>
+                Mostrar Clima ....
+            </Text>
+        </View>
+    )
+}
+
 /*
 const GetWeather = ({ result }) => {
     const { name, main, weather} = result;

@@ -7,3 +7,12 @@ component: citiesList -> lista de ciudades ya seleccionadas{
         fourDayForecast: muestra el clima y temp para los proximos 4 dias
     }
 }
+
+// FUNCION PARA LEER DATA DE FIREBASE
+
+const usersCollectionRef = collection(db, "users");
+
+    const readData = async () => {
+        const data = await getDocs(usersCollectionRef);
+        console.log(data.docs.map((doc) => ({...doc.data()})))
+    };

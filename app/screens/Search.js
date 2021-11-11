@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Image, View, Dimensions, TouchableOpacity} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { google_places_key } from '../../config.json';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 import MapView, { Marker } from 'react-native-maps';
+import {db} from '../../database/firebaseConfig';
+import { doc, setDoc} from 'firebase/firestore'
 
 export default function Search(){
 
+    const navigation = useNavigation();
     const [cityData, setCityData] = useState({});
 
     //Esta función tomará los datos que devuelva la opción seleccionada y los pondrá en un objeto
@@ -21,11 +25,33 @@ export default function Search(){
 
     };
 
+    const name = cityData.name;
     const latitude = cityData.latitude;
     const longitude = cityData.longitude;
 
+
+    //Guarda la ciudad en la lista de ciudades pertinente al usuario loggeado
+    const saveNewCity = async () => {
+        if (Object.keys(cityData).length == 0){
+            alert('Por favor ingrese una ciudad');
+        } else {
+            console.log(name, latitude, longitude);
+            await setDoc(doc(db, "users", "racoon", "savedCities", name), {
+                lat: latitude,
+                lng: longitude
+            });
+        };
+
+        try {
+            navigation.navigate("getWeather");
+        } catch(err){
+            console.log(err);
+        }
+    };
     
     //Usa la API de Google Places Autocomplete a través del paquete react-native-google-places-autocomplete
+    //Y react-native-maps para mostrar la busqueda en un mapa
+    //Luego puede confirmarse la selección presionando el botón flotante, enviándo los datos a firebase
     return(
         <View style={styles.container}>
             <View
@@ -65,6 +91,7 @@ export default function Search(){
                 </MapView>
                 <TouchableOpacity
                     style={styles.btnContainer}
+                    onPress={saveNewCity}
                 >
                     <Image
                         source={require('../../assets/add-city.png')}
@@ -92,13 +119,13 @@ const styles = StyleSheet.create({
         height: halfWindow,
     },
     btnContainer: {
-        position: 'absolute'
+        position: 'absolute',
+        bottom: -280,
+        left: 300,
     },
     addCityBtn: {
         resizeMode: 'contain',
         height: 50,
         width: 50,
-        bottom: -220,
-        left: 300,
     }
 })

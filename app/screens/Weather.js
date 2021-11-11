@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import Search from '../screens/Search';
 import CitiesList from '../components/CitiesList';
 
 //Esta pantalla contiene el botón que lleva al buscador de ciudades (Search)
@@ -22,7 +21,11 @@ export default function Weather() {
       </View>
 
       <View style={styles.citiesList}>
-        <CitiesList />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("getWeather")}
+        >
+          <CitiesList />
+        </TouchableOpacity>
       </View>
       
     </View>
