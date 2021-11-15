@@ -44,7 +44,7 @@ export default function Search(){
         };
 
         try {
-            navigation.navigate("getWeather");
+            navigation.navigate("getWeather", { name: name});
         } catch(err){
             console.log(err);
         }
@@ -96,7 +96,7 @@ export default function Search(){
                 >
                     <Image
                         source={require('../../assets/add-city.png')}
-                        style={styles.addCityBtn}
+                        style={styles.saveNewCityBtn}
                     />
                 </TouchableOpacity>
                     
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         bottom: -280,
         left: 300,
     },
-    addCityBtn: {
+    saveNewCityBtn: {
         resizeMode: 'contain',
         height: 50,
         width: 50,

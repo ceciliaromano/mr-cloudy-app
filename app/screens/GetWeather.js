@@ -1,16 +1,38 @@
 import React from 'react';
 import { View, Text} from 'react-native';
+import {doc, getDoc } from 'firebase/firestore';
+import {db} from '../../database/firebaseConfig';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 //Obtiene el clima de la API OpenWeatherMap (pendiente)
-export default function GetWeather(){
+export default function GetWeather({ route }){
+    const { name } = route.params;
+    const docRef = doc(db, "users", "racoon", "savedCities", name)
+
+    const getCoord = async () => {
+        const docSnap = await getDoc(docRef);
+
+        try{
+            console.log(docSnap.data());
+        } catch(err){
+            console.log("err")
+        }
+    }
+
     return(
         <View>
-            <Text>
-                Mostrar Clima ....
-            </Text>
+            <TouchableOpacity
+                onPress={getCoord}
+            >
+                <Text>
+                    {name}
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
+
+
 
 /*
 const GetWeather = ({ result }) => {

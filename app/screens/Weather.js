@@ -21,11 +21,7 @@ export default function Weather() {
       </View>
 
       <View style={styles.citiesList}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("getWeather")}
-        >
           <CitiesList />
-        </TouchableOpacity>
       </View>
       
     </View>
@@ -40,10 +36,7 @@ const styles = StyleSheet.create({
     marginTop: 50
   },
   citiesList: {
-    marginTop: 10,
-    borderWidth: 1,
-    padding: 8,
-    width: "80%"
+    height: 300
   },
   pseudoInput: {
     borderWidth: 1,
