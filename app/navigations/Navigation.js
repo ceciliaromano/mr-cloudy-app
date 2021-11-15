@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigation(){
     //Crea barra de navegación inferior, contiene las pestañas Home y WeatherStack
-    //*Le falta la pestaña de Usuarios*
+    //*Le falta la pestaña de Usuarios y Quienes Somos*
     return(
         <NavigationContainer>
             <Tab.Navigator>

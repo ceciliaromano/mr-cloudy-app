@@ -7,7 +7,7 @@ import GetWeather from "../screens/GetWeather"
 const Stack = createStackNavigator();
 
 export default function WeatherStack(){
-    //Pantallas de la pestaña WeatherStack, contiene Weather (predeterminada) y Search
+    //Pantallas de la pestaña WeatherStack, contiene Weather (predeterminada), Search y GetWeather
     return(
         <Stack.Navigator>
             <Stack.Screen

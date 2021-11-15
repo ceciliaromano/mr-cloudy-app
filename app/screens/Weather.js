@@ -32,6 +32,7 @@ export default function Weather() {
   );
 }
 
+//ESTILOS
 const styles = StyleSheet.create({
   container: {
     flex: 1,

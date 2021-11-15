@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text} from 'react-native';
 
+//Obtiene el clima de la API OpenWeatherMap (pendiente)
 export default function GetWeather(){
     return(
         <View>

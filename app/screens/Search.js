@@ -25,6 +25,7 @@ export default function Search(){
 
     };
 
+    //Guardamos en constantes las propiedades del objeto
     const name = cityData.name;
     const latitude = cityData.latitude;
     const longitude = cityData.longitude;
@@ -104,6 +105,8 @@ export default function Search(){
         </View>
     );
 }
+
+//ESTILOS
 
 const halfWindow = (Dimensions.get("window").height) / 2
 
