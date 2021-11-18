@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { collection } from 'firebase/firestore';
+import { collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../../database/firebaseConfig';
 import { onSnapshot } from "@firebase/firestore";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
-//Componente con lista de ciudades (pendiente)
+//Componente con lista de ciudades
 export default function CitiesList() {
     const navigation = useNavigation();
     const [cities, setCities] = useState([]);
 
-    const cosa = cities.map((city) =>
-        city.id
-    );
-
+    //Recibe todas las entradas de la base de datos del usuario *pendiente CAMBIAR USUARIOS*
     useEffect(
         () =>
             onSnapshot(collection(db, "users", "racoon", "savedCities"), (snapshot) =>
@@ -25,15 +23,37 @@ export default function CitiesList() {
     return (
         <ScrollView style={styles.container}>
             {cities.map((city) => {
+                
+                //Funcion que elimina la ciudad de la base de datos *pendiente CAMBIAR USUARIOS*
+                const deleteCity = async () => {
+                    await deleteDoc(doc(db, "users", "racoon", "savedCities", city.id))
+                }
+
+                //Formato de swipeable
+                const rightSwipe = (progress, dragX) => {
+                    const scale = dragX.interpolate({
+                        inputRange: [-100, 0],
+                        outputRange: [1, 0],
+                        extrapolate: 'clamp'
+                    });
+                    return(
+                        <View style={styles.deleteBox}>
+                            <TouchableOpacity onPress={deleteCity} >
+                                <Animated.Text style={styles.deleteText, { transform: [{scale}] }}>Delete</Animated.Text>
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }
+                
                 return(
                     <View>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("getWeather", {name: city.id})}
-                        >
-                            <Text key={city.id} style={styles.listItem}>
-                                {city.id}
-                            </Text>
-                        </TouchableOpacity>
+                        <Swipeable renderRightActions = {rightSwipe} >
+                            <TouchableOpacity onPress={() => navigation.navigate("getWeather", {name: city.id})} >
+                                <Text key={city.id} style={styles.listItem}>
+                                    {city.id}
+                                </Text>
+                            </TouchableOpacity>
+                        </Swipeable>
                     </View>
                 )
             })}
@@ -46,7 +66,13 @@ const styles = StyleSheet.create({
         height: 30,
     },
     listItem: {
-        padding: 5,
-        borderWidth: 1
-    }
+        borderWidth: 1,
+        padding: 10
+    },
+    deleteBox: {
+        backgroundColor: "red",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 70,
+    },
 })

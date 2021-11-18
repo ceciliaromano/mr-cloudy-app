@@ -35,14 +35,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 50
   },
-  citiesList: {
-    height: 300
-  },
   pseudoInput: {
     borderWidth: 1,
     borderColor: '#777',
     borderRadius: 12,
     padding: 8,
-    width: 100
+    width: 100,
+    marginBottom: 50
+  },
+  citiesList: {
+    height: 300,
+    width: "80%"
   }
 })
