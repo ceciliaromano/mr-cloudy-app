@@ -5,13 +5,15 @@ import { google_places_key } from '../../config.json';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 import MapView, { Marker } from 'react-native-maps';
-import {db} from '../../database/firebaseConfig';
+import { db, auth } from '../../database/firebaseConfig';
 import { doc, setDoc} from 'firebase/firestore'
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Search(){
 
     const navigation = useNavigation();
     const [cityData, setCityData] = useState({});
+    const [UID, setUID] = useState("");
 
     //Esta función tomará los datos que devuelva la opción seleccionada y los pondrá en un objeto
     //En este caso nos interesa el nombre de la ciudad (name), su latitud y longitud para enviarla a la API de OpenWeather
@@ -30,6 +32,11 @@ export default function Search(){
     const latitude = cityData.latitude;
     const longitude = cityData.longitude;
 
+    //Toma el UID del usuario
+    onAuthStateChanged(auth, (currentUser) => {
+        setUID(currentUser.uid);
+        console.log(currentUser);
+    })
 
     //Guarda la ciudad en la lista de ciudades pertinente al usuario loggeado
     const saveNewCity = async () => {
@@ -37,14 +44,14 @@ export default function Search(){
             alert('Por favor ingrese una ciudad');
         } else {
             console.log(name, latitude, longitude);
-            await setDoc(doc(db, "users", "racoon", "savedCities", name), {
+            await setDoc(doc(db, "users", UID, "savedCities", name), {
                 lat: latitude,
                 lng: longitude
             });
         };
 
         try {
-            navigation.navigate("getWeather", { name: name});
+            navigation.navigate("getWeather", { name: name, UID: UID});
         } catch(err){
             console.log(err);
         }

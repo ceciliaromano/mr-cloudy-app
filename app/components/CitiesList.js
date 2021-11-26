@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { collection, doc, deleteDoc } from 'firebase/firestore';
-import {db} from '../../database/firebaseConfig';
-import { onSnapshot } from "@firebase/firestore";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { collection, doc, deleteDoc } from 'firebase/firestore';
+import { db, auth } from '../../database/firebaseConfig';
+import { onSnapshot } from "@firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 //Componente con lista de ciudades
 export default function CitiesList() {
     const navigation = useNavigation();
     const [cities, setCities] = useState([]);
+    const [login, setLogin] = useState(false);
+    const [UID, setUID] = useState("");
 
-    //Recibe todas las entradas de la base de datos del usuario *pendiente CAMBIAR USUARIOS*
-    useEffect(
-        () =>
-            onSnapshot(collection(db, "users", "racoon", "savedCities"), (snapshot) =>
+    //Toma el UID del usuario
+    onAuthStateChanged(auth, (currentUser) => {
+        setUID(currentUser.uid);
+        !currentUser ? setLogin(false) : setLogin(true);
+    })
+
+    //Recibe todas las entradas de la base de datos del usuario
+    useEffect(() =>{
+        if(login){
+            onSnapshot(collection(db, "users", UID, "savedCities"), (snapshot) =>
                 setCities(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})))
-            ),
-        []
-    );
+            )
+        }
+    }, [login] );
     
     return (
         <ScrollView style={styles.container}>
+            {cities.length === 0 ? <Text style={styles.noListItems}>¡Tu lista de ciudades está vacía! Busca ciudades para agregarlas a la lista</Text> : null}
             {cities.map((city) => {
                 
-                //Funcion que elimina la ciudad de la base de datos *pendiente CAMBIAR USUARIOS*
+                //Funcion que elimina la ciudad de la base de datos
                 const deleteCity = async () => {
-                    await deleteDoc(doc(db, "users", "racoon", "savedCities", city.id))
+                    await deleteDoc(doc(db, "users", UID, "savedCities", city.id))
                 }
 
                 //Formato de swipeable
@@ -48,7 +58,7 @@ export default function CitiesList() {
                 return(
                     <View>
                         <Swipeable renderRightActions = {rightSwipe} >
-                            <TouchableOpacity onPress={() => navigation.navigate("getWeather", {name: city.id})} >
+                            <TouchableOpacity onPress={() => navigation.navigate("getWeather", {name: city.id, UID: UID})} >
                                 <Text key={city.id} style={styles.listItem}>
                                     {city.id}
                                 </Text>
@@ -64,6 +74,14 @@ export default function CitiesList() {
 const styles = StyleSheet.create({
     container: {
         height: 30,
+        borderWidth: 1
+    },
+    noListItems: {
+        paddingTop: 120,
+        justifyContent: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center"
     },
     listItem: {
         borderWidth: 1,

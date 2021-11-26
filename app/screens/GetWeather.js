@@ -4,14 +4,15 @@ import {doc, getDoc } from 'firebase/firestore';
 import {db} from '../../database/firebaseConfig';
 import { openweather_key } from '../../config.json'
 
-//Obtiene el clima de la API OpenWeatherMap (pendiente)
+//Busca la entrada en la base de datos y luego hace la petición de clima a la API de OpenWeatherMap
 export default function GetWeather({ route }){
-    const [ loading, setLoading ] = useState(false);
     const [ fetchedData, setFetchedData ] = useState();
+    //Obtiene el nombre y UID pasados desde la pantalla Search o del item seleccionado de CitiesList
+    const { name, UID } = route.params;
 
-    const { name } = route.params;
-    const docRef = doc(db, "users", "racoon", "savedCities", name)
+    const docRef = doc(db, "users", UID, "savedCities", name)
 
+    //Consulta la API pasando las coordenadas del lugar para evitar errores
     const consultarAPI = async () => {
         const docSnap = await getDoc(docRef);
         const data = docSnap.data();
