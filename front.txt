@@ -1,0 +1,7 @@
+---- Bryan ----
+
+- La busqueda de las ciudades y el clima se da completamente en español
+- Reparado bug al cerrar el alert "Por favor ingrese una ciudad" en search.js
+- Agregadas pestañas faltantes *Aun NO funcionales*
+- Home con estilos
+- Clima con cambios segun temperatura 
