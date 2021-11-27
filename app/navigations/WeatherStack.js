@@ -13,7 +13,7 @@ export default function WeatherStack(){
             <Stack.Screen
                 name = "weather"
                 component={Weather}
-                options={{ title: "Espacio de clima" }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="search"

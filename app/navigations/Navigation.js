@@ -1,29 +1,71 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-import Home from "../screens/Home"
-import WeatherStack from "./WeatherStack"
+import {Icon} from "react-native-elements";
+import Home from "../screens/Home";
+import WeatherStack from "./WeatherStack";
+import Account from "../screens/Account/Account";
+import Quienes from "../screens/Quienes";
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigation(){
-    //Crea barra de navegación inferior, contiene las pestañas Home y WeatherStack
-    //*Le falta la pestaña de Usuarios y Quienes Somos*
+    //Crea barra de navegación inferior, contiene las pestañas Home, WeatherStack, Account y Quienes.
     return(
         <NavigationContainer>
-            <Tab.Navigator>
+            <Tab.Navigator
+                initialRouteName="Cuenta"
+                tabBarOptions={{
+                    inactiveTintColor: '#646464',
+                    activeTintColor: '#2353E8'
+                }}
+                screenOptions={({route})=> ({
+                    tabBarIcon: ({color}) => screenOptions(route,color),
+                })}
+            >
                 <Tab.Screen
-                    name = "home"
+                    name = "Home"
                     component={Home}
-                    options={{ title: "Home" }}
+                    options={{headerShown: false}}
                 />
                 <Tab.Screen
-                    name = "weather-stack"
+                    name = "Clima"
                     component={WeatherStack}
+                    options={{ headerShown: false}}
+                />
+                <Tab.Screen
+                    name = "Quienes Somos"
+                    component={Quienes}
+                    options={{ headerShown: false}}
+                />
+                <Tab.Screen
+                    name = "Cuenta"
+                    component={Account}
                     options={{ headerShown: false}}
                 />
             </Tab.Navigator>
         </NavigationContainer>
     )
+}
+
+function screenOptions(route,color){
+    let iconName;
+    switch(route.name) {
+        case "Home":
+            iconName = "home"
+            break;
+        case "Clima":
+            iconName = "cloud-sun-rain"
+            break;
+        case "Quienes Somos":
+            iconName = "child"
+            break;
+        case "Cuenta":
+            iconName = "user-circle"
+        break;
+        
+        default:
+            break;
+    }
+    return <Icon type="font-awesome-5" name={iconName} size={22} color={color}/>
 }
