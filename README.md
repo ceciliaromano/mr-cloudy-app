@@ -32,5 +32,3 @@ Seguir los pasos propuestos por expo
 ![UserPersona2](https://user-images.githubusercontent.com/93145891/143787774-cac96064-c3ce-463e-a07a-ce1599285804.jpg)
 ![UserPersona3](https://user-images.githubusercontent.com/93145891/143787780-32638eba-950c-4050-a6ab-0ebbb0fee144.jpg)
 ![UserPersona4](https://user-images.githubusercontent.com/93145891/143787782-c913e38a-1cc5-4ecc-90ec-3582164892ae.jpg)
-
-- Otro
