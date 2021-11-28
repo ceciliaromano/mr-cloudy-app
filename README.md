@@ -6,7 +6,7 @@ Proyecto React native utilizando expo. La app permite consultar el clima buscand
 
 ### Requisitos
 - Instalar [nodeJS](https://nodejs.org)
-- Instalar [expo-cli](https://docs.expo.dev/)
+- Instalar [expo-cli](https://docs.expo.dev/) de forma global.
 
 ### Pasos
 
