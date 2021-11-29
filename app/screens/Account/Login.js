@@ -73,7 +73,7 @@ export default function Login(){
     return(
         <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondos/fondohome.jpg")} resizeMode="cover" style={styles.image}>
-            <Text style={styles.textLogin}>ClimARG</Text>
+            <Text style={styles.textLogin}>Mr Cloudy</Text>
             <TextInput
                 style={styles.inputFields}
                 placeholder="Email..."
