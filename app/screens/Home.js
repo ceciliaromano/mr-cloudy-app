@@ -1,11 +1,10 @@
 import React from "react";
-import { ScrollView,TouchableOpacity, Animated, Text, View, SafeAreaView, StyleSheet, Dimensions, ImageBackground, Image} from 'react-native';
+import { ScrollView,TouchableOpacity, Text, View, StyleSheet, ImageBackground, Image} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import {Icon} from "react-native-elements";
-//Sección Home, debe incluir descripcion de la app, modo de uso, etc. (pendiente)
+
 export default function Home() {
   const navigation = useNavigation();
- 
   const climaPant = () => navigation.navigate("Clima");
   const cuentaPant = () => navigation.navigate("Cuenta");
   const quienesPant = () => navigation.navigate("Quienes Somos");
@@ -13,9 +12,9 @@ export default function Home() {
   return (
     <View style={styles.content}>
         <ImageBackground source={require("../../assets/fondos/fondohome.jpg")} resizeMode="cover" style={styles.image}>
-            <Text style={styles.titulo}>ClimARG</Text>
+            <Text style={styles.titulo}>Mr Cloudy</Text>
             <ScrollView >
-                <Text style={styles.text}>ClimARG está pensado para dar solución a un abanico de perfiles de usuario que busquen una app sencilla, agil y amigable para obtener información sobre el clima de distintas localidades. Cada usuario puede registrarse con su email para guardar en una lista de acceso rápido en la pantalla clima sus localizaciones de interés.</Text>
+                <Text style={styles.text}>Mr Cloudy es una aplicación pensada para dar solución a un abanico de perfiles de usuario que busquen una app sencilla, agil y amigable para obtener información sobre el clima de distintas localidades. Cada usuario puede registrarse con su email para guardar en una lista de acceso rápido en la pantalla clima sus localizaciones de interés.</Text>
                 <Text style={styles.titulo2}>Pantalla clima</Text>
                 <TouchableOpacity
                     style={styles.btnContainer}

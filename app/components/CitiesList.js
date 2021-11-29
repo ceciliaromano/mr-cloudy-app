@@ -30,9 +30,7 @@ export default function CitiesList() {
             )
         }
     }, [login] );
-   /* var hora = new Date().getHours();
-    var min = new Date().getMinutes();
-    console.log("hora:" + hora +":"+ min);*/
+    
     return (
         <ScrollView style={styles.container}>
             {cities.length === 0 ? <Text style={styles.noListItems}>¡Tu lista de ciudades está vacía! Busca ciudades para agregarlas a la lista</Text> : null}

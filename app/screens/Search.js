@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from 'react';
-import { StyleSheet, Image, View, Keyboard, TouchableOpacity} from 'react-native';
+import React, { useState} from 'react';
+import { StyleSheet, Image, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { google_places_key } from '../../config.json';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';

@@ -6,7 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../database/firebaseConfig";
 
 //Esta pantalla contiene el botón que lleva al buscador de ciudades (Search)
-//Y el listado de ciudades guardadas (CitiesList) *pendiente*
+//Y el listado de ciudades guardadas (CitiesList)
 
 export default function Weather() {
 

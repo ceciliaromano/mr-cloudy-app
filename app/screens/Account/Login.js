@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, ImageBackground, StyleSheet, Alert, TouchableOpacity, Text } from "react-native";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../database/firebaseConfig";
 
 export default function Login(){
@@ -80,6 +80,7 @@ export default function Login(){
                 onChangeText={(email) => setEmail(email)}
             />
             <TextInput
+                secureTextEntry={true}
                 style={styles.inputFields}
                 placeholder="Password..."
                 onChangeText={(password) => setPassword(password)}

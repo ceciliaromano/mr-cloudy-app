@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, Image, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageBackground } from 'react-native';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../database/firebaseConfig';
 import { openweather_key } from '../../config.json';
-import CitiesList from '../components/CitiesList';
-import { useNavigation } from "@react-navigation/native";
-import { render } from 'react-dom';
 
 //Busca la entrada en la base de datos y luego hace la petición de clima a la API de OpenWeatherMap
 export default function GetWeather({ route }) {
     const [fetchedData, setFetchedData] = useState();
-    const navigation = useNavigation();
+
     //Obtiene el nombre y UID pasados desde la pantalla Search o del item seleccionado de CitiesList
     const { name, UID } = route.params;
     const docRef = doc(db, "users", UID, "savedCities", name)
@@ -144,9 +141,6 @@ const Styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 5,
         color: '#000',
-        //      textShadowColor: '#000', 
-        //     textShadowOffset: { width: 1.2, height: 1.2 }, 
-        //     textShadowRadius: 1
     },
     textoclima: {
         fontSize: 18,
@@ -155,9 +149,6 @@ const Styles = StyleSheet.create({
         alignSelf: 'center',
         fontStyle: 'italic',
         fontWeight: 'bold',
-        //     textShadowColor: '#999', 
-        //      textShadowOffset: { width: 1, height: 1 }, 
-        //     textShadowRadius: 1
     },
     maxMin: {
         fontSize: 18,
@@ -166,8 +157,5 @@ const Styles = StyleSheet.create({
         marginBottom: 13,
         alignSelf: 'center',
         fontWeight: 'bold',
-        //      textShadowColor: '#000', 
-        //      textShadowOffset: { width: 1.2, height: 1.2 }, 
-        //       textShadowRadius: 1
     }
 })
