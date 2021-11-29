@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
-import { StyleSheet, Image, View, Dimensions, TouchableOpacity} from 'react-native';
+import React, { useState} from 'react';
+import { StyleSheet, Image, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { google_places_key } from '../../config.json';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
 import MapView, { Marker } from 'react-native-maps';
-import {db} from '../../database/firebaseConfig';
+import { db, auth } from '../../database/firebaseConfig';
 import { doc, setDoc} from 'firebase/firestore'
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Search(){
 
     const navigation = useNavigation();
     const [cityData, setCityData] = useState({});
+    const [UID, setUID] = useState("");
+
 
     //Esta función tomará los datos que devuelva la opción seleccionada y los pondrá en un objeto
     //En este caso nos interesa el nombre de la ciudad (name), su latitud y longitud para enviarla a la API de OpenWeather
@@ -30,50 +32,58 @@ export default function Search(){
     const latitude = cityData.latitude;
     const longitude = cityData.longitude;
 
+    //Toma el UID del usuario
+    onAuthStateChanged(auth, (currentUser) => {
+        setUID(currentUser.uid);
+        console.log(currentUser);
+    })
 
     //Guarda la ciudad en la lista de ciudades pertinente al usuario loggeado
     const saveNewCity = async () => {
         if (Object.keys(cityData).length == 0){
             alert('Por favor ingrese una ciudad');
+            return;
         } else {
             console.log(name, latitude, longitude);
-            await setDoc(doc(db, "users", "racoon", "savedCities", name), {
+            await setDoc(doc(db, "users", UID, "savedCities", name), {
                 lat: latitude,
                 lng: longitude
             });
         };
 
         try {
-            navigation.navigate("getWeather", { name: name});
+            navigation.navigate("getWeather", { name: name, UID: UID});
         } catch(err){
             console.log(err);
         }
     };
-    
+  
     //Usa la API de Google Places Autocomplete a través del paquete react-native-google-places-autocomplete
     //Y react-native-maps para mostrar la busqueda en un mapa
     //Luego puede confirmarse la selección presionando el botón flotante, enviándo los datos a firebase
     return(
         <View style={styles.container}>
+            
             <View
                 style={styles.searchBarContainer}
             >
                 <GooglePlacesAutocomplete
-                    placeholder='Search'
-                    listViewDisplayed = "auto"
+                    placeholder='Introduce una ciudad'
+                    listViewDisplayed = "false"
                     fetchDetails = {true}
                     query={{
                         key: google_places_key,
-                        language: 'en',
+                        language: 'es',
                     }}
                     requestUrl={{
                         useOnPlatform: 'web',
-                        url:
-                        'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api',
+                        url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api',
                     }}
                     onPress={getCoordinates}
                     onFail={(error) => console.error(error)}
+                   
                 />
+                
             </View>
   
             <View>
@@ -108,23 +118,24 @@ export default function Search(){
 
 //ESTILOS
 
-const halfWindow = (Dimensions.get("window").height) / 2
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
     searchBarContainer: {
-        height: 320
+        position: 'absolute',
+        zIndex:1,
+        width: "100%"
     },
     map: {
-        ...StyleSheet.absoluteFillObject,
-        height: halfWindow,
+        height: "100%",
+        zIndex: 0,
     },
     btnContainer: {
         position: 'absolute',
-        bottom: -280,
-        left: 300,
+        bottom: 50,
+        right: 50,
+        zIndex: 2,
     },
     saveNewCityBtn: {
         resizeMode: 'contain',
